@@ -128,6 +128,8 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    //comentario jeje
+
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
