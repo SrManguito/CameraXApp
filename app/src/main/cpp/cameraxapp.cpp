@@ -94,6 +94,10 @@ void matToBitmap(JNIEnv* env, Mat src, jobject bitmap, jboolean needPremultiplyA
     }
 }
 
+double returnOne(){
+    return 3.1415;
+}
+
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_example_cameraxapp_MainActivity_stringFromJNI(
         JNIEnv *env,
@@ -103,12 +107,12 @@ Java_com_example_cameraxapp_MainActivity_stringFromJNI(
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_cameraxapp_MainActivity_flip(JNIEnv* env, jobject p_this, jobject bitmapIn, jobject bitmapOut) {
+Java_com_example_cameraxapp_MainActivity_00024MyClass_00024Companion_flip(JNIEnv* env, jobject p_this, jobject bitmapIn, jobject bitmapOut) {
     Mat src;
     bitmapToMat(env, bitmapIn, src, false);
     // NOTE bitmapToMat returns Mat in RGBA format, if needed convert to BGRA using cvtColor
 
-    myFlip(src);
+//    myFlip(src);
 
     // NOTE matToBitmap expects Mat in GRAY/RGB(A) format, if needed convert using cvtColor
     matToBitmap(env, src, bitmapOut, false);
@@ -122,15 +126,13 @@ Java_com_example_cameraxapp_MainActivity_blur(JNIEnv* env, jobject p_this, jobje
     matToBitmap(env, src, bitmapOut, false);
 }
 
-// Do not forget to dynamically load the C++ library into your application.
-//
-// For instance,
-//
-// In MainActivity.java:
-//    static {
-//       System.loadLibrary("cameraxapp");
-//    }
-//
+extern "C" JNIEXPORT jdouble JNICALL
+Java_com_example_cameraxapp_MainActivity_00024MyClass_00024Companion_ones(JNIEnv *env, jobject thiz) {
+    double pi = returnOne();
+    return pi;
+}
+
+
 // Or, in MainActivity.kt:
 //    companion object {
 //      init {

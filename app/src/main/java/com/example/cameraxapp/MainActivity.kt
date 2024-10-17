@@ -35,6 +35,7 @@ import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.Locale
 import android.graphics.Bitmap
+import java.io.ByteArrayOutputStream
 
 typealias LumaListener = (luma: Double) -> Unit
 
@@ -63,8 +64,18 @@ class MainActivity : AppCompatActivity() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
+    class MyClass {
 
-    private class LuminosityAnalyzer(private val listener: LumaListener) : ImageAnalysis.Analyzer {
+        companion object {
+            init {
+                System.loadLibrary("cameraxapp")
+            }
+            external fun flip(bitmapIn: Bitmap, bitmapOut: Bitmap)
+            external fun ones(): Double
+
+        }
+    }
+     private class LuminosityAnalyzer(private val listener: LumaListener) : ImageAnalysis.Analyzer {
 
         private fun ByteBuffer.toByteArray(): ByteArray {
             rewind()    // Rewind the buffer to zero
@@ -72,19 +83,28 @@ class MainActivity : AppCompatActivity() {
             get(data)   // Copy the buffer into a byte array
             return data // Return the byte array
         }
+        private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+                val stream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                return  stream.toByteArray()
+        }
 
         override fun analyze(image: ImageProxy) {
 
-            val buffer = image.planes[0].buffer
-            val data = buffer.toByteArray()
+            var buffer = image.toBitmap()
+            val number = MyClass.ones()
+//            va dstBitmap = buffer
+            MyClass.flip(buffer, buffer)
+            val data = bitmapToByteArray(buffer)
             val pixels = data.map { it.toInt() and 0xFF }
             val luma = pixels.average()
 
-            listener(luma)
+            listener(number)
 
             image.close()
         }
-    }
+
+     }
 
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
@@ -127,8 +147,6 @@ class MainActivity : AppCompatActivity() {
             }
         )
     }
-
-    //comentario jeje
 
 
     private fun startCamera() {
@@ -187,9 +205,9 @@ class MainActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
-    external fun stringFromJNI(): String
-    external fun blur(bitmapIn: Bitmap, bitmapOut: Bitmap, sigma: Float)
-    external fun flip(bitmapIn: Bitmap, bitmapOut: Bitmap)
+//    external fun stringFromJNI(): String
+//    external fun blur(bitmapIn: Bitmap, bitmapOut: Bitmap, sigma: Float)
+
 
     companion object {
         private const val TAG = "CameraXApp"
@@ -203,10 +221,7 @@ class MainActivity : AppCompatActivity() {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
             }.toTypedArray()
-        // Used to load the 'native-lib' library on application startup.
-        init {
-            System.loadLibrary("native-lib")
-        }
+
     }
     private val activityResultLauncher =
         registerForActivityResult(
