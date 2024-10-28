@@ -13,6 +13,7 @@ using namespace cv;
 
 void myFlip(Mat src);
 void myBlur(Mat src, float sigma);
+double myDetector(Mat img, double th1, double th2);
 
 #endif //CAMERAXAPP_OPENCV_UTILS_H
 

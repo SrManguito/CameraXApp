@@ -95,7 +95,7 @@ void matToBitmap(JNIEnv* env, Mat src, jobject bitmap, jboolean needPremultiplyA
 }
 
 double returnOne(){
-    return 3.1415;
+    return 1;
 }
 
 extern "C" JNIEXPORT jstring JNICALL
@@ -127,8 +127,10 @@ Java_com_example_cameraxapp_MainActivity_blur(JNIEnv* env, jobject p_this, jobje
 }
 
 extern "C" JNIEXPORT jdouble JNICALL
-Java_com_example_cameraxapp_MainActivity_00024MyClass_00024Companion_ones(JNIEnv *env, jobject thiz) {
-    double pi = returnOne();
+Java_com_example_cameraxapp_MainActivity_00024MyClass_00024Companion_ones(JNIEnv *env, jobject thiz, jobject bitmapIn) {
+    Mat src;
+    bitmapToMat(env, bitmapIn, src, false);
+    double pi = myDetector(src, 220, 100);
     return pi;
 }
 

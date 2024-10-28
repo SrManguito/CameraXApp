@@ -8,10 +8,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
-import androidx.camera.video.Recorder
-import androidx.camera.video.Recording
-import androidx.camera.video.VideoCapture
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.cameraxapp.databinding.ActivityMainBinding
 import java.util.concurrent.ExecutorService
@@ -25,12 +21,6 @@ import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
-import androidx.camera.video.FallbackStrategy
-import androidx.camera.video.MediaStoreOutputOptions
-import androidx.camera.video.Quality
-import androidx.camera.video.QualitySelector
-import androidx.camera.video.VideoRecordEvent
-import androidx.core.content.PermissionChecker
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -71,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 System.loadLibrary("cameraxapp")
             }
             external fun flip(bitmapIn: Bitmap, bitmapOut: Bitmap)
-            external fun ones(): Double
+            external fun ones(bitmapIn: Bitmap): Double
 
         }
     }
@@ -92,12 +82,12 @@ class MainActivity : AppCompatActivity() {
         override fun analyze(image: ImageProxy) {
 
             var buffer = image.toBitmap()
-            val number = MyClass.ones()
+            val number = MyClass.ones(buffer)
 //            va dstBitmap = buffer
-            MyClass.flip(buffer, buffer)
-            val data = bitmapToByteArray(buffer)
-            val pixels = data.map { it.toInt() and 0xFF }
-            val luma = pixels.average()
+//            MyClass.flip(buffer, buffer)
+//            val data = bitmapToByteArray(buffer)
+//            val pixels = data.map { it.toInt() and 0xFF }
+//            val luma = pixels.average()
 
             listener(number)
 
