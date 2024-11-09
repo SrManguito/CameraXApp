@@ -76,4 +76,10 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     implementation("androidx.camera:camera-extensions:${camerax_version}")
 
+    // for adding recyclerview
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // for adding cardview
+    implementation("androidx.cardview:cardview:1.0.0")
+
 }
