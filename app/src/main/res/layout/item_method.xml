@@ -1,12 +1,47 @@
 <!-- item_method.xml -->
+<!-- item_method.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/methodName"
-        android:layout_width="wrap_content"
+    <!-- Default Android Image -->
+    <ImageView
+        android:id="@+id/methodIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="Method icon"
+        android:paddingEnd="16dp"/>
+<!--        app:tint="?attr/colorPrimary" -->
+
+    <!-- Vertical container for TextViews -->
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18sp"/>
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Method Name -->
+        <TextView
+            android:id="@+id/methodName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface" />
+
+        <!-- Method Description / Subtitle -->
+        <TextView
+            android:id="@+id/methodDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnSurface"
+            android:paddingTop="4dp" />
+    </LinearLayout>
 </LinearLayout>

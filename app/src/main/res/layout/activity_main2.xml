@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:background="#000000"
+    tools:context=".MainActivity2">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="5"
+        tools:itemCount="2"
+        android:background="#F1F1F1"
         tools:listitem="@layout/card_view_design" />
 
 </LinearLayout>

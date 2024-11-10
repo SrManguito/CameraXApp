@@ -195,9 +195,6 @@ class MainActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
-//    external fun stringFromJNI(): String
-//    external fun blur(bitmapIn: Bitmap, bitmapOut: Bitmap, sigma: Float)
-
 
     companion object {
         private const val TAG = "CameraXApp"

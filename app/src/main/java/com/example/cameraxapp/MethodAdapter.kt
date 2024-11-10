@@ -25,7 +25,10 @@ class MethodAdapter(
     class MethodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: MethodItem, clickListener: (MethodItem) -> Unit) {
             itemView.findViewById<TextView>(R.id.methodName).text = item.name
+            itemView.findViewById<TextView>(R.id.methodDescription).text = item.description
             itemView.setOnClickListener { clickListener(item) }
         }
     }
 }
+
+
