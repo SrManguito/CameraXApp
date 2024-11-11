@@ -98,12 +98,17 @@ double returnOne(){
     return 1;
 }
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_example_cameraxapp_MainActivity_stringFromJNI(
+extern "C" JNIEXPORT jint JNICALL
+Java_com_example_cameraxapp_VidProcPost_00024MyClass_00024Companion_stringFromJNI(
         JNIEnv *env,
-        jobject /* this */) {
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
+        jobject p_this,/* this */
+        jstring input) {
+    const char *path = env->GetStringUTFChars(input, nullptr);
+//    String src = reinterpret_cast<const char *>(input);
+    int output = openVid(path);
+    return output;
+//    std::string hello = "Hello from C++";
+//    return env->NewStringUTF(hello.c_str());
 }
 
 extern "C" JNIEXPORT void JNICALL

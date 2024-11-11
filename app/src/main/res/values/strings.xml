@@ -3,4 +3,18 @@
     <string name="take_photo">Tomar fotito</string>
     <string name="start_capture">Captura video</string>
     <string name="stop_capture">Parar captura</string>
+    <string name="audio">Audio</string>
+    <string name="camera">Camera</string>
+    <string name="capture">Capture</string>
+    <string name="stop">Stop</string>
+    <string name="pause">Pause</string>
+    <string name="Resume">Resume</string>
+    <string name="Start">Start</string>
+    <string name="Finalize">Finalize</string>
+    <string name="Idle">Idle</string>
+    <string name="back_button_alt">Back</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="video_viewer_tips">Tips for the page:\n\t- tap anywhere to replay\n\t- tap system back button to go back</string>
+
 </resources>

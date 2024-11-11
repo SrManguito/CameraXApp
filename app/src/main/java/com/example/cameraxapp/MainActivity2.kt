@@ -1,12 +1,8 @@
 package com.example.cameraxapp
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -28,8 +24,8 @@ class MainActivity2 : AppCompatActivity() {
         // Initialize the list of methods with three example activities
         methodList = listOf(
             MethodItem("OOK Single Source", "This implements a luminosity thresholding algorithm", MainActivity::class.java),
-//            MethodItem("Method 2", "Description of Method 2", Method2Activity::class.java),
-//            MethodItem("Method 3", "Description of Method 3", Method3Activity::class.java)
+            MethodItem("VideoCapLayout", "This template of a videocapture layout", VidCapTemplate::class.java),
+            MethodItem("VideoRecording", "This method records video and decodes after", VidProcPost::class.java)
         )
 
         recyclerView = findViewById(R.id.recyclerview)

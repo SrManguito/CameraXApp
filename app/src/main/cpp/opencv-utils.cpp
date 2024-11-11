@@ -3,7 +3,8 @@
 //
 
 #include "opencv-utils.h"
-#include <opencv2/imgproc.hpp>
+//#include <opencv2/imgproc.hpp>
+#include <opencv2/opencv.hpp>
 
 void myFlip(Mat src) {
     flip(src, src, 0);
@@ -52,4 +53,22 @@ double myDetector(Mat img, double th1, double th2){
 
 
     return sum;
+}
+
+int openVid(String src){
+    VideoCapture capture( src );
+    if (!capture.isOpened()){
+        //error in opening the video input
+        std:: cerr << "Unable to open: " << src << std:: endl;
+        return 1;
+    }
+
+    Mat frame;
+
+    capture >> frame;
+    if (frame.empty()){
+        return 1;
+    }
+    return 25;
+
 }
