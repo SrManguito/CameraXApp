@@ -1,48 +1,40 @@
 package com.example.cameraxapp
 
 import android.Manifest
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.ImageCapture
-import androidx.camera.video.Recorder
-import androidx.camera.video.Recording
-import androidx.camera.video.VideoCapture
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.example.cameraxapp.databinding.ActivityVidProcPostBinding
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.core.Preview
-import androidx.camera.core.CameraSelector
 import android.util.Log
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.ImageProxy
-import androidx.camera.video.FallbackStrategy
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.MediaStoreOutputOptions
 import androidx.camera.video.Quality
 import androidx.camera.video.QualitySelector
+import androidx.camera.video.Recorder
+import androidx.camera.video.Recording
+import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
-import java.nio.ByteBuffer
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.example.cameraxapp.databinding.ActivityVidProcPostBinding
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
-
+private lateinit var openMediaFolderLauncher: ActivityResultLauncher<Intent>
 class VidProcPost : AppCompatActivity() {
     private lateinit var viewBinding: ActivityVidProcPostBinding
 
@@ -52,19 +44,42 @@ class VidProcPost : AppCompatActivity() {
     private var recording: Recording? = null
 
     private lateinit var cameraExecutor: ExecutorService
-    private val VIDEO_PICK_REQUEST_CODE = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityVidProcPostBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
+        openMediaFolderLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            // No need to process the result here if you're only accessing the folder.
+            if (result.resultCode == Activity.RESULT_OK) {
+                val videoUri = result.data?.data
+                if (videoUri != null) {
+                    viewBinding.textView.apply {
+                        val filePath = getFileFromContentUri(videoUri)
+                        Log.d(TAG, "Original Uri : $videoUri")
+                        Log.d(TAG, "Video Uri : $filePath")
+                        val output = MyClass.stringFromJNI(filePath.toString())
+                        text = if (output != 1){
+                            "Video opened successfully"
+                        } else{
+                            "Video not opened"
+                        }
+//                        text = "State = $output"
+
+//                    isEnabled = true
+                    }
+                    // Process the selected video here or store its URI for later processing
+                }
+            }
+        }
 
         viewBinding.openFolderButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 type = "video/*"
             }
-            startActivityForResult(intent, VIDEO_PICK_REQUEST_CODE)
+            openMediaFolderLauncher.launch(intent)
         }
 
         // Request camera permissions
@@ -257,25 +272,7 @@ class VidProcPost : AppCompatActivity() {
         }
         return tempFile
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == VIDEO_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
-            val videoUri = data?.data
-            if (videoUri != null) {
-                viewBinding.textView.apply {
-                    val filePath = getFileFromContentUri(videoUri)
-                    Log.d(TAG, "Original Uri : ${videoUri}")
-                    Log.d(TAG, "Video Uri : ${filePath}")
-                    val output = MyClass.stringFromJNI(filePath.toString())
-                    text = "State = $output"
 
-
-//                    isEnabled = true
-                }
-                // Process the selected video here or store its URI for later processing
-            }
-        }
-    }
     private val activityResultLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions())
