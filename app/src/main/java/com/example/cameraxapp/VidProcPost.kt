@@ -60,11 +60,12 @@ class VidProcPost : AppCompatActivity() {
                         Log.d(TAG, "Original Uri : $videoUri")
                         Log.d(TAG, "Video Uri : $filePath")
                         val output = MyClass.stringFromJNI(filePath.toString())
-                        text = if (output != 1){
-                            "Video opened successfully"
-                        } else{
-                            "Video not opened"
-                        }
+                        text = output
+//                            if (output != 1.0){
+//                            "Video opened with len $output"
+//                        } else{
+//                            "Video not opened"
+//                        }
 //                        text = "State = $output"
 
 //                    isEnabled = true
@@ -103,7 +104,7 @@ class VidProcPost : AppCompatActivity() {
             init {
                 System.loadLibrary("cameraxapp")
             }
-            external fun stringFromJNI(input :String) :Int
+            external fun stringFromJNI(input :String) :String
 
         }
     }

@@ -10,11 +10,12 @@
 #include <opencv2/core.hpp>
 
 using namespace cv;
+using namespace std;
 
 void myFlip(Mat src);
 void myBlur(Mat src, float sigma);
 double myDetector(Mat img, double th1, double th2);
-int openVid(String src);
+String openVid(String src);
 
 #endif //CAMERAXAPP_OPENCV_UTILS_H
 

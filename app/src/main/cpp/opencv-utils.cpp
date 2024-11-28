@@ -55,20 +55,166 @@ double myDetector(Mat img, double th1, double th2){
     return sum;
 }
 
-int openVid(String src){
+double detect( Mat src_gray, double threshold_value){
+
+    int rows = src_gray.rows;          // Number of rows (height)
+    int cols = src_gray.cols;          // Number of columns (width)
+
+    int width = 60, height = 60;
+    int startX = cols/2;
+    int startY = rows/2;
+
+    Mat cropped_image = src_gray(Range(startY - height,startY + height), Range(startX - width, startX + width));
+    Mat dst, erosion_dst; // dilation_dst;
+
+    threshold( cropped_image, dst, threshold_value, 255, THRESH_BINARY );
+    int erosion_size = 3;
+//    int dilation_size = 3;
+
+    Mat element_ero = getStructuringElement( MORPH_ELLIPSE,
+                                             Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                             Point( erosion_size, erosion_size ) );
+
+//    Mat element_dil = getStructuringElement( MORPH_ELLIPSE,
+//                                             Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+//                                             Point( dilation_size, dilation_size ) );
+
+    cv::erode(dst, erosion_dst, element_ero);
+    double sum = cv::sum(erosion_dst)[0];
+
+    return sum;
+}
+
+vector<int> fWindow(VideoCapture vid, int win_size, double th1 , double trust_fact ){
+
+    double max_sum = 0;
+
+    vector<int> decoded;
+    Mat frame;
+
+    bool broken = true;
+
+    while (broken){
+
+        int current_sum = 0;
+
+        for (int j = 0; j < win_size; j++){
+
+            vid >> frame;
+            if (frame.empty()){
+                broken = false;
+                break;
+            }
+            cvtColor(frame,frame, COLOR_RGB2GRAY);
+            double detection = detect(frame, th1);
+
+            if(detection > max_sum ){
+                max_sum = detection;
+            }
+
+            if(detection > max_sum * trust_fact){
+                current_sum += 1;
+            }
+            else{
+                current_sum += 0;
+            }
+        }
+
+
+        if(current_sum >1){
+            decoded.push_back(1);
+        }
+        else{
+            decoded.push_back(0);
+        }
+
+
+    }
+
+    return decoded;
+}
+
+/**
+ * @brief Detects a package based on the package format of Matus paper
+ */
+char matusByteCharDemodulation(vector<int> package, int p_begin){
+    int num = 0;
+    vector<int> pos = {1,2,3,4,6,7,8,9};
+    vector<int> square = {7,6,5,4,3,2,1,0};
+
+    for(int i = 0; i<8; i++){
+        cout << package[p_begin + pos[i]] << " ";
+        num += package[p_begin + pos[i]] * pow(2,square[i]);
+    }
+
+    return static_cast<char>(num);
+};
+
+
+/**
+ * @brief Detects the headers containted in the data vector
+ *
+ * @param
+ * @param
+ * @param
+ *
+ * @return Returns the positions of the headers
+ */
+String detectAndDemodulate(vector<int> data, int header_len, int package_len){
+
+    String message;
+
+    int data_len = data.size();
+
+    for(int i = 0; i < data_len - header_len + 1; i++){
+        int win_sum = 0;
+
+        for(int j = 0; j < header_len; j++){
+            win_sum += data[ i+j];
+        }
+        // std :: cout << win_sum << " ";
+        if(win_sum == 5){
+            cout << "Header found" << endl;
+
+            message += matusByteCharDemodulation(data, (i + header_len));
+            i += 9;
+        }
+        win_sum = 0;
+    }
+    return message;
+
+};
+
+String openVid(String src){
     VideoCapture capture( src );
     if (!capture.isOpened()){
         //error in opening the video input
         std:: cerr << "Unable to open: " << src << std:: endl;
-        return 1;
+        return "Error abriendo el archivo";
     }
+//    double vid_len = capture.get(CAP_PROP_FRAME_COUNT);
+//    double count = 0;
+//    Mat frame;
 
-    Mat frame;
+    vector<int> demodulated;
+    demodulated = fWindow(capture, 3, 220, 0.6);
 
-    capture >> frame;
-    if (frame.empty()){
-        return 1;
-    }
-    return 25;
+    int header_len = 5;
+    int package_len = 8;
+
+    String decoded;
+    decoded = detectAndDemodulate(demodulated, header_len, package_len);
+
+//    while (true){
+//        capture >> frame;
+//        if (frame.empty()){
+//            break;
+//        }
+//        count++;
+//    }
+
+    String demo = "Demodulated";
+    return decoded;
 
 }
+
