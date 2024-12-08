@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:background="@color/txGray"
+    android:background="#F1F1F1"
     android:gravity="center_vertical">
 
     <!-- Default Android Image -->
@@ -15,7 +15,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@mipmap/ic_launcher"
-        android:background="@color/txGray"
+        android:background="#F1F1F1"
         android:contentDescription="Method icon"
         android:paddingEnd="16dp"/>
 <!--        app:tint="?attr/colorPrimary" -->
@@ -25,6 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="#F1F1F1"
         android:orientation="vertical">
 
         <!-- Method Name -->
