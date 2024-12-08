@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.Range
 import android.util.Size
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -62,9 +63,11 @@ class VidProcPost : AppCompatActivity() {
                 if (videoUri != null) {
                     viewBinding.textView.apply {
                         val filePath = getFileFromContentUri(videoUri)
+                        val file = File(context.getExternalFilesDir(null), "output.txt")
+                        val path = file.absolutePath
                         Log.d(TAG, "Original Uri : $videoUri")
                         Log.d(TAG, "Video Uri : $filePath")
-                        val output = MyClass.stringFromJNI(filePath.toString())
+                        val output = MyClass.stringFromJNI(filePath.toString(), path)
                         text = output
 //                            if (output != 1.0){
 //                            "Video opened with len $output"
@@ -107,7 +110,7 @@ class VidProcPost : AppCompatActivity() {
             init {
                 System.loadLibrary("cameraxapp")
             }
-            external fun stringFromJNI(input :String) :String
+            external fun stringFromJNI(input :String, out_path : String) :String
 
         }
     }

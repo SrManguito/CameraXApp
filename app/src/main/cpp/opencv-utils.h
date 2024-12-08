@@ -15,7 +15,7 @@ using namespace std;
 void myFlip(Mat src);
 void myBlur(Mat src, float sigma);
 double myDetector(Mat img, double th1, double th2);
-String openVid(String src);
+String openVid(String src, String out);
 
 #endif //CAMERAXAPP_OPENCV_UTILS_H
 

@@ -5,6 +5,12 @@
 #include "opencv-utils.h"
 //#include <opencv2/imgproc.hpp>
 #include <opencv2/opencv.hpp>
+#include <fstream>
+#include <iostream>
+#include <android/log.h>
+#define LOG_TAG "CPP_LOG"
+#define LOG_INFO(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+
 
 void myFlip(Mat src) {
     flip(src, src, 0);
@@ -185,7 +191,29 @@ String detectAndDemodulate(vector<int> data, int header_len, int package_len){
 
 };
 
-String openVid(String src){
+void writeVectorToFile(const std::vector<int>& data, const std::string& filename) {
+    // Create an output file stream
+    std::ofstream outFile;
+    outFile.open(filename);
+    // Check if the file stream was successfully opened
+    if (!outFile) {
+        std::cerr << "Error: Unable to open file " << filename << " for writing." << std::endl;
+        LOG_INFO("Error al abrir el archivo");
+        return;
+    }
+
+    // Write each element of the vector to the file
+    for (const auto& value : data) {
+        outFile << value << ","; // Writing each value on a new line
+    }
+    outFile << "\n";
+    // Close the file stream
+    outFile.close();
+    std::cout << "Data successfully written to " << filename << std::endl;
+    LOG_INFO("Data successfully written");
+}
+
+String openVid(String src, String out){
     VideoCapture capture( src );
     if (!capture.isOpened()){
         //error in opening the video input
@@ -198,6 +226,12 @@ String openVid(String src){
 
     vector<int> demodulated;
     demodulated = fWindow(capture, 3, 220, 0.6);
+//    std::string filename = "/storage/emulated/0/Android/data/com.example.cameraxapp/files/output.txt";
+//    std::string filename = "/data/data/com.example.cameraxapp/files/output.txt";
+
+
+    // Write the vector to the file
+    writeVectorToFile(demodulated, out);
 
     int header_len = 5;
     int package_len = 8;
@@ -217,4 +251,5 @@ String openVid(String src){
     return decoded;
 
 }
+
 

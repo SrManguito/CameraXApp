@@ -3,6 +3,7 @@ package com.example.cameraxapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -24,6 +25,7 @@ class MethodAdapter(
 
     class MethodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: MethodItem, clickListener: (MethodItem) -> Unit) {
+            itemView.findViewById<ImageView>(R.id.methodIcon).setImageResource(item.imageResId)
             itemView.findViewById<TextView>(R.id.methodName).text = item.name
             itemView.findViewById<TextView>(R.id.methodDescription).text = item.description
             itemView.setOnClickListener { clickListener(item) }

@@ -102,10 +102,11 @@ extern "C" JNIEXPORT jstring JNICALL
 Java_com_example_cameraxapp_VidProcPost_00024MyClass_00024Companion_stringFromJNI(
         JNIEnv *env,
         jobject p_this,/* this */
-        jstring input) {
+        jstring input,
+        jstring out_path) {
     const char *path = env->GetStringUTFChars(input, nullptr);
-//    String src = reinterpret_cast<const char *>(input);
-    String output = openVid(path);
+    const char* cPath = env->GetStringUTFChars(out_path, nullptr);
+    String output = openVid(path, cPath);
 //    std::string hello = "Hello from C++";
     return env->NewStringUTF(output.c_str());
 }

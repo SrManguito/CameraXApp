@@ -16,11 +16,24 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="72dp"
         android:text=""
+        android:textAlignment="center"
+        android:textStyle="normal"
         android:textColor="@android:color/white"
+        android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/bottomText"
+        android:layout_width="fill_parent"
+        android:layout_height="160dp"
+        android:text=""
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/viewFinder"
         app:layout_constraintStart_toStartOf="parent" />
 
 
