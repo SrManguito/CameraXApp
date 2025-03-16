@@ -181,7 +181,9 @@ String detectAndDemodulate(vector<int> data, int header_len, int package_len){
         // std :: cout << win_sum << " ";
         if(win_sum == 5){
             cout << "Header found" << endl;
-
+            if(i + win_sum + 10 > data_len){
+                break;
+            }
             message += matusByteCharDemodulation(data, (i + header_len));
             i += 9;
         }

@@ -24,9 +24,12 @@ class MainActivity2 : AppCompatActivity() {
 //        findViewById<RecyclerView>(R.id.recyclerview).setBackgroundColor(Color.parseColor("#F5F5F5"))
         // Initialize the list of methods with three example activities
         methodList = listOf(
-            MethodItem("OOK Single Source", "This implements a luminosity thresholding algorithm", MainActivity::class.java,R.drawable.onoff),
-            MethodItem("VideoCapLayout", "This template of a videocapture layout", VidCapTemplate::class.java,R.drawable.config),
-            MethodItem("VideoRecording", "This method records video and decodes after", VidProcPost::class.java,R.drawable.ic_start)
+            MethodItem("OOK Single Source", "This implements a luminosity thresholding algorithm",
+                MainActivity::class.java, R.drawable.onoff),
+            MethodItem("VideoCapLayout", "This template of a videocapture layout",
+                VidCapTemplate::class.java,R.drawable.config),
+            MethodItem("VideoRecording", "This method records video and decodes after",
+                VidProcPost::class.java,R.drawable.ic_start)
         )
 
         recyclerView = findViewById(R.id.recyclerview)

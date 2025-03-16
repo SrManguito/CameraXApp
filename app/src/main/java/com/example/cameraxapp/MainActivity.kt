@@ -96,6 +96,12 @@ class MainActivity : AppCompatActivity() {
 
      }
 
+    private fun captureVideo(){
+
+
+
+    }
+
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
@@ -138,7 +144,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
@@ -154,7 +159,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             imageCapture = ImageCapture.Builder().build()
-
+            val capture = captureVideo()
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
                 .also {
