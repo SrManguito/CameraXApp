@@ -16,5 +16,4 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="video_viewer_tips">Tips for the page:\n\t- tap anywhere to replay\n\t- tap system back button to go back</string>
-
 </resources>

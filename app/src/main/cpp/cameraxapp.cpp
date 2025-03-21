@@ -118,7 +118,7 @@ Java_com_example_cameraxapp_MainActivity_00024MyClass_00024Companion_flip(JNIEnv
 
 //    myFlip(src);
 
-    // NOTE matToBitmap expects Mat in GRAY/RGB(A) format, if needed convert using cvtColor
+//     NOTE matToBitmap expects Mat in GRAY/RGB(A) format, if needed convert using cvtColor
     matToBitmap(env, src, bitmapOut, false);
 }
 

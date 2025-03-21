@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="VideoQuality">2</integer> <!-- From 1 to 4 from FHD,HD,SD,LOWEST -->
+    <integer name="PreviewWidth">1280</integer> <!-- Check in CameraProbe your supported res-->
+    <integer name="PreviewHeight">720</integer> <!-- Check in CameraProbe your supported res -->
+    <integer name="TopFps">30</integer> <!-- Set the same as BottomFps if you want a fixed fps -->
+    <integer name="BottomFps">30</integer> <!-- Set the same as TopFps if you want a fixed fps -->
+    <!-- Consider that even if you fix the frame rate if the quality is to high it may drop
+     based on the phone capacity and the hardware performance limits  -->
+    <string name="DefaultScreenMessage">Record or select an experiment to see its information</string>
+</resources>
