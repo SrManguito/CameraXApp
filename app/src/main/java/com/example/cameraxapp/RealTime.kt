@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
 import androidx.core.content.ContextCompat
-import com.example.cameraxapp.databinding.ActivityMainBinding
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import android.widget.Toast
@@ -25,13 +24,14 @@ import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.Locale
 import android.graphics.Bitmap
+import com.example.cameraxapp.databinding.ActivityRealTimeBinding
 import java.io.ByteArrayOutputStream
 
 typealias LumaListener = (luma: Double) -> Unit
 
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var viewBinding: ActivityMainBinding
+class RealTime : AppCompatActivity() {
+    private lateinit var viewBinding: ActivityRealTimeBinding
 
     private var imageCapture: ImageCapture? = null
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        viewBinding = ActivityRealTimeBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
         // Request camera permissions

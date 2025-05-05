@@ -111,7 +111,7 @@ Java_com_example_cameraxapp_VidProcPost_00024MyClass_00024Companion_stringFromJN
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_cameraxapp_MainActivity_00024MyClass_00024Companion_flip(JNIEnv* env, jobject p_this, jobject bitmapIn, jobject bitmapOut) {
+Java_com_example_cameraxapp_RealTime_00024MyClass_00024Companion_flip(JNIEnv* env, jobject p_this, jobject bitmapIn, jobject bitmapOut) {
     Mat src;
     bitmapToMat(env, bitmapIn, src, false);
     // NOTE bitmapToMat returns Mat in RGBA format, if needed convert to BGRA using cvtColor
@@ -131,7 +131,7 @@ Java_com_example_cameraxapp_MainActivity_blur(JNIEnv* env, jobject p_this, jobje
 }
 
 extern "C" JNIEXPORT jdouble JNICALL
-Java_com_example_cameraxapp_MainActivity_00024MyClass_00024Companion_ones(JNIEnv *env, jobject thiz, jobject bitmapIn) {
+Java_com_example_cameraxapp_RealTime_00024MyClass_00024Companion_ones(JNIEnv *env, jobject thiz, jobject bitmapIn) {
     Mat src;
     bitmapToMat(env, bitmapIn, src, false);
     double pi = myDetector(src, 220, 100);
@@ -139,7 +139,7 @@ Java_com_example_cameraxapp_MainActivity_00024MyClass_00024Companion_ones(JNIEnv
 }
 
 
-// Or, in MainActivity.kt:
+// Or, in RealTime.kt:
 //    companion object {
 //      init {
 //         System.loadLibrary("cameraxapp")

@@ -12,7 +12,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.Range
 import android.util.Size
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts

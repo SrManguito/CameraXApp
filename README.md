@@ -2,7 +2,7 @@
 ***
 ## Section Index
 1. [Introduction](#introduction)
-2. [Android](#android)
+2. [Android](#android-studio)
 3. [Kotlin](#kotlin)
 4. [JNI](#jni)
 5. [C++](#c)
@@ -42,9 +42,9 @@ The app use two programming languages, Kotlin and C++, but it's mainly developed
             │   └───com
             │       └───example
             │           └───cameraxapp
-            │                   MainActivity.kt
-            │                   MainActivity2.kt
+            │                   MainMenu.kt
             │                   MethodAdapter.kt
+            │                   RealTime.kt
             │                   VidCapTemplate.kt
             │                   VidProcPost.kt                
             │
@@ -67,13 +67,13 @@ The most important part from every file/folder mentioned before are:
     * layout: xml's with the layout for each interface and auxiliar elements on them
     * values: xml's with the hexadecimal colors used and parameter values for the app.
 
-## Kotlin 
+## Kotlin
 
 For the Kotlin part there is the cameraxapp folder, where you can find this files:
 
-* MainActivity.kt: This is the main activity, sets the interfaces and manage the access to other activities
-* MethodAdapter.kt: This is an aux class to handle the navegation from the main activity to the others
-* ImgAnalyzer.kt: This activity for real time image processing, it's not fully implemented yet, but there is the base method to analyze frame by frame in real time what the camera sees. 
+* MainMenu.kt: This is the main activity, sets the interfaces and manage the access to other activities
+* MethodAdapter.kt: This is an aux class to handle the navigation from the main activity to the others
+* RealTime.kt: This activity for real time image processing, it's not fully implemented yet, but there is the base method to analyze frame by frame in real time what the camera sees. 
 * VidCapTemplate.kt: This activity acts as a sandbox object interface, where the developer can place, delete and try different interface objects without breaking other interfaces.
 * VidProcPost.kt: This activity is for video capture and postprocessing, where you can record videos and select any video from the movile to process and decodificate its information.
 
