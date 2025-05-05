@@ -203,7 +203,7 @@ class VidProcPost : AppCompatActivity() {
                 .setAspectRatioStrategy(
                     AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY // Use 16:9, fallback to compatible resolution
                 )
-                .setResolutionStrategy(ResolutionStrategy(Size(1280, 720), ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER) ) // Your preferred resolution
+                .setResolutionStrategy(ResolutionStrategy(Size(resources.getInteger(R.integer.PreviewHeight), resources.getInteger(R.integer.PreviewWidth)), ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER) ) // Your preferred resolution
                 .build()
             // Preview
             val preview = Preview.Builder()
@@ -213,12 +213,21 @@ class VidProcPost : AppCompatActivity() {
                     it.surfaceProvider = viewBinding.viewFinder.surfaceProvider
                 }
 
+            fun getQualityFromString(quality: String): Quality {
+                return when (quality.uppercase()) { // Ensure case insensitivity
+                    "FHD" -> Quality.FHD  // Full HD (1080p)
+                    "HD" -> Quality.HD     // HD (720p)
+                    "SD" -> Quality.SD     // Standard Definition (480p)
+                    else -> Quality.LOWEST  // Default fallback
+                }
+            }
+
             val recorder = Recorder.Builder()
-                .setQualitySelector(QualitySelector.from(Quality.HD))
+                .setQualitySelector(QualitySelector.from(getQualityFromString(getString(R.string.VideoQuality))))
                 .build()
 //            videoCapture = VideoCapture.withOutput(recorder)
             videoCapture = VideoCapture.Builder(recorder)
-                .setTargetFrameRate(Range(30,30))
+                .setTargetFrameRate(Range(resources.getInteger(R.integer.BottomFps),resources.getInteger(R.integer.TopFps)))
                 .build()
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -265,19 +274,6 @@ class VidProcPost : AppCompatActivity() {
                 }
             }.toTypedArray()
     }
-//    private fun getRealPathFromURI(uri: Uri): String? {
-//        var filePath: String? = null
-//        val cursor = contentResolver.query(uri, null, null, null, null)
-//        cursor?.use {
-//            if (it.moveToFirst()) {
-//                val index = it.getColumnIndex("_data")
-//                if (index != -1) {
-//                    filePath = it.getString(index)
-//                }
-//            }
-//        }
-//        return filePath
-//    }
 
     private fun getFileFromContentUri(uri: Uri): File? {
         val tempFile = File.createTempFile("video_temp", ".mp4", cacheDir)
