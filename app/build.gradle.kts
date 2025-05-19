@@ -77,9 +77,6 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     implementation("androidx.camera:camera-extensions:${camerax_version}")
 
-    implementation ("com.journeyapps:zxing-android-embedded:3.6.0@aar")
-    implementation ("com.google.zxing:core:3.3.3")
-
     // for adding recyclerview
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
