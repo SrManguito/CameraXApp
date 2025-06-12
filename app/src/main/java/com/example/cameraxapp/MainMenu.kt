@@ -20,15 +20,15 @@ class MainMenu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
-//        findViewById<RecyclerView>(R.id.recyclerview).setBackgroundColor(Color.parseColor("#F5F5F5"))
         // Initialize the list of methods with three example activities
         methodList = listOf(
-            MethodItem("OOK Single Source", "This implements a luminosity thresholding algorithm",
-                RealTime::class.java, R.drawable.onoff),
-            MethodItem("VideoCapLayout", "This template of a videocapture layout",
+            MethodItem("VideoRecording", "This section records video for experiments",
+            VidProcPost::class.java,R.drawable.ic_start),
+            MethodItem("Results visualizer", "This section allows the user to select a video to be decodified",
+                VidResults::class.java, R.drawable.onoff),
+            MethodItem("VideoCapLayout", "This section allows the developer to try UI elements isolated from other activities",
                 VidCapTemplate::class.java,R.drawable.config),
-            MethodItem("VideoRecording", "This method records video and decodes after",
-                VidProcPost::class.java,R.drawable.ic_start)
+
         )
 
         recyclerView = findViewById(R.id.recyclerview)
