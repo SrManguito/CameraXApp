@@ -14,6 +14,7 @@
     </androidx.camera.view.PreviewView>
 
 
+<!--
     <TextView
         android:id="@+id/textView"
         android:layout_width="fill_parent"
@@ -25,7 +26,6 @@
         android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/bottomText"
         android:layout_width="fill_parent"
@@ -37,16 +37,8 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <Button
-        android:id="@+id/openFolderButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Video \n Folder"
-        android:translationX="96dp"
-        android:layout_marginBottom="69dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_centerline"
-        app:layout_constraintBottom_toBottomOf="parent"
-         />
+
+-->
     <View
         android:id="@+id/roiView"
         android:layout_width="120dp"

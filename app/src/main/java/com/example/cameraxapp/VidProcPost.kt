@@ -1,11 +1,8 @@
 package com.example.cameraxapp
 
 import android.Manifest
-import android.app.Activity
 import android.content.ContentValues
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,7 +10,6 @@ import android.util.Log
 import android.util.Range
 import android.util.Size
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -32,18 +28,13 @@ import androidx.camera.video.VideoRecordEvent
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import com.example.cameraxapp.databinding.ActivityVidProcPostBinding
-import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-private lateinit var openMediaFolderLauncher: ActivityResultLauncher<Intent>
 class VidProcPost : AppCompatActivity() {
     private lateinit var viewBinding: ActivityVidProcPostBinding
-
-//    private var imageCapture: ImageCapture? = null
 
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
@@ -55,41 +46,6 @@ class VidProcPost : AppCompatActivity() {
         viewBinding = ActivityVidProcPostBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        openMediaFolderLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            // No need to process the result here if you're only accessing the folder.
-            if (result.resultCode == Activity.RESULT_OK) {
-                val videoUri = result.data?.data
-                if (videoUri != null) {
-                    viewBinding.textView.apply {
-                        val filePath = getFileFromContentUri(videoUri)
-                        val file = File(context.getExternalFilesDir(null), "output.txt")
-                        val path = file.absolutePath
-                        Log.d(TAG, "Original Uri : $videoUri")
-                        Log.d(TAG, "Video Uri : $filePath")
-                        val output = MyClass.stringFromJNI(filePath.toString(), path)
-                        text = output
-//                            if (output != 1.0){
-//                            "Video opened with len $output"
-//                        } else{
-//                            "Video not opened"
-//                        }
-//                        text = "State = $output"
-
-//                    isEnabled = true
-                    }
-                    // Process the selected video here or store its URI for later processing
-                }
-            }
-        }
-
-        viewBinding.openFolderButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "video/*"
-            }
-            openMediaFolderLauncher.launch(intent)
-        }
-
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
@@ -99,19 +55,8 @@ class VidProcPost : AppCompatActivity() {
 
         // Set up the listeners for take photo and video capture buttons
         viewBinding.captureButton.setOnClickListener{ captureVideo()}
-//        viewBinding.openFolderButton.setOnClickListener{ }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
-    }
-    class MyClass {
-
-        companion object {
-            init {
-                System.loadLibrary("cameraxapp")
-            }
-            external fun stringFromJNI(input :String, out_path : String) :String
-
-        }
     }
 
     // Implements VideoCapture use case, including start and stop capturing.
@@ -156,10 +101,6 @@ class VidProcPost : AppCompatActivity() {
             .start(ContextCompat.getMainExecutor(this)) { recordEvent ->
                 when(recordEvent) {
                     is VideoRecordEvent.Start -> {
-//                        viewBinding.videoCaptureButton.apply {
-//                            text = getString(R.string.stop_capture)
-//                            isEnabled = true
-//                        }
                         viewBinding.captureButton.apply {
                             background = getDrawable(R.drawable.ic_stop)
                             isEnabled = true
@@ -178,10 +119,7 @@ class VidProcPost : AppCompatActivity() {
                             Log.e(TAG, "Video capture ends with error: " +
                                     "${recordEvent.error}")
                         }
-//                        viewBinding.videoCaptureButton.apply {
-//                            text = getString(R.string.start_capture)
-//                            isEnabled = true
-//                        }
+
                         viewBinding.captureButton.apply {
                             background = getDrawable(R.drawable.ic_start)
                             isEnabled = true
@@ -263,7 +201,7 @@ class VidProcPost : AppCompatActivity() {
     companion object {
         private const val TAG = "CameraXApp"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-        private val REQUIRED_PERMISSIONS =
+        val REQUIRED_PERMISSIONS =
             mutableListOf (
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO
@@ -272,16 +210,6 @@ class VidProcPost : AppCompatActivity() {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
             }.toTypedArray()
-    }
-
-    private fun getFileFromContentUri(uri: Uri): File? {
-        val tempFile = File.createTempFile("video_temp", ".mp4", cacheDir)
-        contentResolver.openInputStream(uri)?.use { inputStream ->
-            FileOutputStream(tempFile).use { outputStream ->
-                inputStream.copyTo(outputStream)
-            }
-        }
-        return tempFile
     }
 
     private val activityResultLauncher =
